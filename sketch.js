@@ -5,6 +5,7 @@ function preload() {
 
   ottawaImg = loadImage('ottawabackdrop.jpg');
   
+
 }
 var scene = 0;
 var city = null;
@@ -19,6 +20,7 @@ var cities = ["Ottawa", "New York", "London"];
 var buttonX = 15;
 var buttonY = 90;
 
+
  var btn1 = new Button({
     x: buttonX,
     y: buttonY,
@@ -29,6 +31,7 @@ var buttonY = 90;
       city = cities[0];
               scene = 1;
 loadBuildings()
+
     }
 });
 var btn2 = new Button({
@@ -41,6 +44,7 @@ var btn2 = new Button({
             city = cities[1];
               scene = 1;
 loadBuildings()
+
     }
 });
 var btn3 = new Button({
@@ -54,6 +58,7 @@ var btn3 = new Button({
         city = cities[2];
         scene = 1;
       loadBuildings()
+
 
     }
 });
@@ -78,6 +83,7 @@ function draw() {
   console.log(scene);
   if (scene === 0) {
   textStyle(NORMAL);
+
   btn1.draw();
   btn2.draw();
   btn3.draw();
@@ -97,7 +103,6 @@ function draw() {
   if (scene === -1) {
     test = createImg("funny.gif")
     noLoop();
-
   }
   /*
   fill(0, 0, 0);
@@ -116,6 +121,4 @@ function draw() {
   }
   */
 }
-
-
 
