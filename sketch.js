@@ -1,15 +1,25 @@
 function preload() {
-  song = loadImage('fb8.jpg');
+  song = loadImage('funny.gif');
+  img = loadImage('funny.gif')
+  song2 = loadSound('song2.mp3');
+
+  ottawaImg = loadImage('ottawabackdrop.jpg');
+  
+
 }
 var scene = 0;
 var city = null;
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(550, 550);
+  song2.play();
+  // 400, 400
 }
+var buildings = [];
 
 var cities = ["Ottawa", "New York", "London"];
-var buttonX = 100;
-var buttonY = 125;
+var buttonX = 15;
+var buttonY = 90;
+
 
  var btn1 = new Button({
     x: buttonX,
@@ -20,6 +30,7 @@ var buttonY = 125;
       print("ottawa");
       city = cities[0];
               scene = 1;
+loadBuildings()
 
     }
 });
@@ -32,6 +43,7 @@ var btn2 = new Button({
       print("new york");
             city = cities[1];
               scene = 1;
+loadBuildings()
 
     }
 });
@@ -43,8 +55,10 @@ var btn3 = new Button({
     label: cities[2],
     onClick: function() {
       print("london");
-            city = cities[2];
+        city = cities[2];
         scene = 1;
+      loadBuildings()
+
 
     }
 });
@@ -60,18 +74,35 @@ var btn4 = new Button({
     }
 });
 
+function loadBuildings() {
+  buildings.push(new building(0, 0, 0))
+}
+
 function draw() {
   background(220);
-  text("Select a City for Simulation", buttonX+25, buttonY-25);
+  console.log(scene);
   if (scene === 0) {
+  textStyle(NORMAL);
+
   btn1.draw();
   btn2.draw();
   btn3.draw();
   btn4.draw();
+  textFont('Comic Sans MS');
+  textStyle(BOLD);
+  textSize(25);
+  text("Select a City for Simulation", buttonX, buttonY-50);
+  }
+  if (scene === 1) {
+     background(220);
+    image(ottawaImg, 100, 100, 100, 100);
+    for (i = 0; i < buildings.length; i++) {
+      buildings[i].update()
+    };
   }
   if (scene === -1) {
-    song.resize(500, 0)
-    image(song, 0, 0)
+    test = createImg("funny.gif")
+    noLoop();
   }
   /*
   fill(0, 0, 0);
