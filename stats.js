@@ -9,11 +9,13 @@ class stat {
 
   update() {
     if (this.per === true) {
-      fill(88, 235, 52, 255);
+      fill(255, 0, 0, 255);
+      textStyle(BOLD);
       text((this.type + ": "+ this.value + '%'), this.x, this.y)
     }
     else {
-      fill(88, 235, 52, 255)
+      fill(255, 0, 0, 255)
+      textStyle(BOLD);
       text((this.type + ": "+ this.value), this.x, this.y)
 
     }

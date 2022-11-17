@@ -32,11 +32,15 @@ Button.prototype.handleMouseClick = function() {
 
 mouseClicked = function() {
     if (scene === 0) {
-    btn1.handleMouseClick();
-    btn2.handleMouseClick();
-    btn3.handleMouseClick();
-    btn4.handleMouseClick();
-    } 
+      btn1.handleMouseClick();
+      btn2.handleMouseClick();
+      btn3.handleMouseClick();
+      btn4.handleMouseClick();
+    }
+      //Menu button functionalitity
+    else if (scene === 1) {
+      btnMenu.handleMouseClick();
+    }
 }
 /*
 mouseClicked = function() {
