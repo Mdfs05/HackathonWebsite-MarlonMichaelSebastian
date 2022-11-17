@@ -1,29 +1,31 @@
-import { initializeApp } from 'firebase/app';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBHyHnN0LdaJvFBCWdbhNRQnWRdZrKavrc",
-  authDomain: "realasefewfdf.firebaseapp.com",
-  databaseURL: "https://realasefewfdf-default-rtdb.firebaseio.com",
-  projectId: "realasefewfdf",
-  storageBucket: "realasefewfdf.appspot.com",
-  messagingSenderId: "407352769359",
-  appId: "1:407352769359:web:e04302a385e0c9d621633a",
-  measurementId: "G-NSEHSYLKQS"
-};
-
-const app = initializeApp(firebaseConfig);
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+import { getAnalytics } from "firebase/analytics";
 
-// TODO: Replace the following with your app's Firebase project configuration
-// See: https://firebase.google.com/docs/web/learn-more#config-object
+
 const firebaseConfig = {
-  // ...
+  apiKey: "AIzaSyCZ5PEnk7cXzzpEwv8jLECV6_S2RUvTiUA",
+  authDomain: "november16-141af.firebaseapp.com",
+  databaseURL: "https://november16-141af-default-rtdb.firebaseio.com",
+  projectId: "november16-141af",
+  storageBucket: "november16-141af.appspot.com",
+  messagingSenderId: "334652918120",
+  appId: "1:334652918120:web:c3f175ab56295723d7eedd",
+  measurementId: "G-LG45SXGG2W"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
+function writeUserData(userId, name, email, imageUrl) {
+  const db = getDatabase();
+  const reference = ref(db, 'users/' + userId);
+  
+  set(reference, {
+    username: name,
+    email: email, 
+    profile_picture: imageUrl
+  });
+}
 
-// Initialize Firebase Authentication and get a reference to the service
-const auth = getAuth(app);
+writeUserData("testnameforme", "name", "emailtest.com", "myimageurl");

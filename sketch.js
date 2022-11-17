@@ -5,8 +5,10 @@ function preload() {
 
   ottawaImg = loadImage('ottawabackdrop.jpg');
   
+
 }
 var scene = 0;
+var item = 0;
 var city = null;
 function setup() {
   createCanvas(550, 550);
@@ -14,10 +16,12 @@ function setup() {
   // 400, 400
 }
 var buildings = [];
-
+var gBuilding = new ghost(0);
+var stats = [new stat("Population", 5, 5, 1000, false), new stat("Funds", 5, 15, 10000, false), new stat("Economic", 5, 25, 100, true), new stat("Environmental", 5, 35, 100, true), new stat("Health", 5, 45, 100, true)];
 var cities = ["Ottawa", "New York", "London"];
 var buttonX = 15;
 var buttonY = 90;
+
 
  var btn1 = new Button({
     x: buttonX,
@@ -29,6 +33,7 @@ var buttonY = 90;
       city = cities[0];
               scene = 1;
 loadBuildings()
+
     }
 });
 var btn2 = new Button({
@@ -41,6 +46,7 @@ var btn2 = new Button({
             city = cities[1];
               scene = 1;
 loadBuildings()
+
     }
 });
 var btn3 = new Button({
@@ -54,6 +60,7 @@ var btn3 = new Button({
         city = cities[2];
         scene = 1;
       loadBuildings()
+
 
     }
 });
@@ -70,14 +77,14 @@ var btn4 = new Button({
 });
 
 function loadBuildings() {
-  buildings.push(new building(0, 0, 0))
 }
+
 
 function draw() {
   background(220);
-  console.log(scene);
   if (scene === 0) {
   textStyle(NORMAL);
+
   btn1.draw();
   btn2.draw();
   btn3.draw();
@@ -93,11 +100,17 @@ function draw() {
     for (i = 0; i < buildings.length; i++) {
       buildings[i].update()
     };
+        gBuilding.update()
+
+    textSize(11);
+    textFont('Georgia');
+    for (i = 0; i < stats.length; i++) {
+      stats[i].update()
+    };
   }
   if (scene === -1) {
     test = createImg("funny.gif")
     noLoop();
-
   }
   /*
   fill(0, 0, 0);
@@ -116,6 +129,4 @@ function draw() {
   }
   */
 }
-
-
 
