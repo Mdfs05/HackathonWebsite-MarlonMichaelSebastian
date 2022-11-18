@@ -6,6 +6,7 @@ function preload() {
   song2 = loadSound('song2.mp3');
 
   ottawaImg = loadImage('ottawabackdrop.jpg');
+
 }
 var scene = 0;
 var item = 0;
@@ -25,6 +26,7 @@ var buttonX = 15;
 var buttonY = 90;
 var menuButtonPressed = false;
 
+
  var btn1 = new Button({
     x: buttonX,
     y: buttonY,
@@ -33,8 +35,14 @@ var menuButtonPressed = false;
     onClick: function() {
       print("ottawa");
       city = cities[0];
+
       scene = 1;
       loadBuildings()
+
+              scene = 1;
+loadBuildings()
+
+
     }
 });
 var btn2 = new Button({
@@ -44,9 +52,16 @@ var btn2 = new Button({
     label: cities[1],
     onClick: function() {
       print("new york");
+
       city = cities[1];
       scene = 1;
       loadBuildings()
+
+            city = cities[1];
+              scene = 1;
+loadBuildings()
+
+
     }
 });
 var btn3 = new Button({
@@ -59,6 +74,10 @@ var btn3 = new Button({
       city = cities[2];
       scene = 1;
       loadBuildings()
+
+
+
+
     }
 });
 var btn4 = new Button({
@@ -210,5 +229,6 @@ function draw() {
     } 
   }
   */
+}
 
 
