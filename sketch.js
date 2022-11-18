@@ -6,7 +6,6 @@ function preload() {
   song2 = loadSound('song2.mp3');
 
   ottawaImg = loadImage('ottawabackdrop.jpg');
-
 }
 var scene = 0;
 var item = 0;
@@ -27,6 +26,7 @@ var buttonY = 90;
 var menuButtonPressed = false;
 
 
+
  var btn1 = new Button({
     x: buttonX,
     y: buttonY,
@@ -41,8 +41,6 @@ var menuButtonPressed = false;
 
               scene = 1;
 loadBuildings()
-
-
     }
 });
 var btn2 = new Button({
@@ -61,7 +59,6 @@ var btn2 = new Button({
               scene = 1;
 loadBuildings()
 
-
     }
 });
 var btn3 = new Button({
@@ -74,9 +71,6 @@ var btn3 = new Button({
       city = cities[2];
       scene = 1;
       loadBuildings()
-
-
-
 
     }
 });
@@ -230,5 +224,3 @@ function draw() {
   }
   */
 }
-
-
