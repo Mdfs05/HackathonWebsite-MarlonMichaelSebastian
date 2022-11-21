@@ -20,11 +20,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+*/
 
 
-
-
-/*import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set } from "firebase/database";
 import { getAnalytics } from "firebase/analytics";
 
@@ -55,4 +54,3 @@ function writeUserData(userId, name, email, imageUrl) {
 }
 
 writeUserData("testnameforme", "name", "emailtest.com", "myimageurl"); 
-*/

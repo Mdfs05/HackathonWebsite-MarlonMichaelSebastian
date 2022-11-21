@@ -6,13 +6,13 @@ function Button(config) {
     this.label = config.label || "Click";
     this.onClick = config.onClick || function() {};
     this.colour = config.colour || [255, 255, 255];
+    this.subButtons = config.subButtons;
 }
 
 Button.prototype.draw = function() {
     fill(this.colour[0], this.colour[1], this.colour[2]);
     rect(this.x, this.y, this.width, this.height, 5);
     fill(0, 0, 0);
-    textSize(19);
     textAlign(LEFT, TOP);
     text(this.label, this.x+10, this.y+this.height/4);
 };
@@ -40,6 +40,11 @@ mouseClicked = function() {
       //Menu button functionalitity
     else if (scene === 1) {
       btnMenu.handleMouseClick();
+      if(menuC === true) {
+        infaBtn.handleMouseClick();
+        utilityBtn.handleMouseClick();
+        houseBtn.handleMouseClick();
+      }
     }
 }
 /*

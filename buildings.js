@@ -34,7 +34,7 @@ class building {
 function mousePressed() {
   if (scene === 1) {
   var collision = false;
-    for (i = 0; i< buildings.length; i++) {
+    for (var i = 0; i< buildings.length; i++) {
     if (collideRectRect(mouseX - 25, mouseY - 25, 50, 50, buildings[i].x - 25,buildings[i].y - 25, 50, 50)) {
       collision = true;
     }
@@ -58,7 +58,7 @@ class ghost {
     this.y+= this.velocity.y
     */
     var ghostC = false;
-    for (i = 0; i< buildings.length; i++) {
+    for (var i = 0; i< buildings.length; i++) {
     if (collideRectRect(mouseX - 25, mouseY - 25, 50, 50, buildings[i].x - 25,buildings[i].y - 25, 50, 50)) {
       ghostC = true;
     }

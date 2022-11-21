@@ -2,29 +2,64 @@ function preload() {
   
   song = loadImage('funny.gif');
   img = loadImage('funny.gif')
-  map = loadImage('map.jpg')
+  map = loadImage('istockphoto-1067670718-612x612.jpg')
   song2 = loadSound('song2.mp3');
 
   ottawaImg = loadImage('ottawabackdrop.jpg');
+
 }
 var scene = 0;
 var item = 0;
 var city = null;
 var menuC = false;
 function setup() {
-  createCanvas(550, 550);
+  createCanvas(550, 520);
   song2.play();
   // 400, 400
 }
 var buildings = [];
 var peoples = [];
+var menuButtons = [[new Button({
+  x: buttonX + 400,
+  y: buttonY - 15,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Infrastructure',
+  onClick:function(){
+    console.log("Infrastructure");
+    if (infaButtonPressed === false) {
+          menuButtonPressed = false;
+          infaButtonPressed = true;
+    }
+    else {
+      infaButtonPressed = false;
+    }
+  }
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 25,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Utilities',
+  onClick:function(){
+    console.log("Utilities");
+    if (utilityButtonPressed === false) {
+          menuButtonPressed = false;
+          utilityButtonPressed = true;
+    }
+    else {
+      utilityButtonPressed = false;
+    }
+  }
+})]]
 var gBuilding = new ghost(0);
 var stats = [new stat("Population", 5, 5, 1000, false), new stat("Funds", 5, 15, 10000, false), new stat("Economic", 5, 25, 100, true), new stat("Environmental", 5, 35, 100, true), new stat("Health", 5, 45, 100, true)];
 var cities = ["Ottawa", "New York", "London"];
 var buttonX = 15;
 var buttonY = 90;
-var menuButtonPressed = false;
-
+var menuButtonPressed = false, infaButtonPressed = false, utilityButtonPressed = false, housingButtonPressed = false, exitButtonPressed = false;
 
 
  var btn1 = new Button({
@@ -37,10 +72,11 @@ var menuButtonPressed = false;
       city = cities[0];
 
       scene = 1;
-      loadBuildings()
 
               scene = 1;
 loadBuildings()
+
+
     }
 });
 var btn2 = new Button({
@@ -53,11 +89,11 @@ var btn2 = new Button({
 
       city = cities[1];
       scene = 1;
-      loadBuildings()
 
             city = cities[1];
               scene = 1;
-loadBuildings()
+      loadBuildings()
+
 
     }
 });
@@ -71,7 +107,6 @@ var btn3 = new Button({
       city = cities[2];
       scene = 1;
       loadBuildings()
-
     }
 });
 var btn4 = new Button({
@@ -103,7 +138,6 @@ var btnMenu = new Button({
     else {
       menuButtonPressed = false;
     }
-    
   }
 });
 
@@ -111,12 +145,19 @@ var btnMenu = new Button({
 var infaBtn = new Button({
   x: buttonX + 400,
   y: buttonY - 15,
-  width: 95,
+  width: 125,
   height: 30,
   colour: [252, 161, 3],
   label:'Infrastructure',
   onClick:function(){
     console.log("Infrastructure");
+    if (infaButtonPressed === false) {
+          menuButtonPressed = false;
+          infaButtonPressed = true;
+    }
+    else {
+      infaButtonPressed = false;
+    }
   }
 });
 
@@ -124,12 +165,19 @@ var infaBtn = new Button({
 var utilityBtn = new Button({
   x: buttonX + 400,
   y: buttonY + 25,
-  width: 95,
+  width: 125,
   height: 30,
   colour: [252, 161, 3],
   label:'Utilities',
   onClick:function(){
     console.log("Utilities");
+    if (utilityButtonPressed === false) {
+          menuButtonPressed = false;
+          utilityButtonPressed = true;
+    }
+    else {
+      utilityButtonPressed = false;
+    }
   }
 });
 
@@ -137,12 +185,39 @@ var utilityBtn = new Button({
 var houseBtn = new Button({
   x: buttonX + 400,
   y: buttonY + 65,
-  width: 95,
+  width: 125,
   height: 30,
   colour: [252, 161, 3],
   label:'Housing',
+  subButtons: [new Button({
+  x: buttonX + 400,
+  y: buttonY + 65,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Mansion',
+  onClick:function(){
+    console.log("Mansion");
+    /*
+    if (housingButtonPressed === false) {
+      menuButtonPressed = false;
+      housingButtonPressed = true;
+    }
+    else {
+      housingButtonPressed = false;
+    }
+    */
+  }
+})],
   onClick:function(){
     console.log("Housing");
+    if (housingButtonPressed === false) {
+      menuButtonPressed = false;
+      housingButtonPressed = true;
+    }
+    else {
+      housingButtonPressed = false;
+    }
   }
 });
 
@@ -152,14 +227,29 @@ function menu() {
   fill(3, 236, 252, 100);
   rect(395, 65, 150, 300);
   for(i = 0; i < buildingButtons.length; i++) {
-    textSize(14);
+    if (i === 0) {
+      textSize(12);
+    }
+    else {
+      textSize(25);
+    }
     buildingButtons[i].draw();
-    textSize(14);
   }
 }
 
-function loadBuildings() {
-  peoples.push(new people(100, 100, createVector(1, 0)))
+function infrastructure() {
+  fill(3, 236, 252, 100);
+  rect(395, 65, 150, 300);
+}
+
+function utilties() {
+  fill(3, 236, 252, 100);
+  rect(395, 65, 150, 300);
+}
+
+function housing() {
+  fill(3, 236, 252, 100);
+  rect(395, 65, 150, 300);
 }
 
 
@@ -187,19 +277,41 @@ function draw() {
     }
     image(map, 0, 0);
     //Menu button functionalitiy
-    for (i = 0; i < buildings.length; i++) {
+    for (var i = 0; i < buildings.length; i++) {
       buildings[i].update()
     };
-    for (i = 0; i < peoples.length; i++) {
+    for (var i = 0; i < peoples.length; i++) {
       peoples[i].update()
+      console.log(i)
+     if (peoples[i].stuck === true) {
+        peoples.splice(i, 1)
+       }
     };
       if (menuC === false) {
     gBuilding.update()
       }
     btnMenu.draw();
       if (menuButtonPressed === true) {
+        //fill(3, 236, 252, 100);
+        //rect(395, 65, 150, 300);
         menu();
       }
+    /*
+      if (infaButtonPressed === true) {
+        infrastructure();
+      }
+      if (utilityButtonPressed === true) {
+        utilties();
+      }
+      if(housingButtonPressed === true) {
+        housingButtonPressed();
+      }
+      */
+    textStyle("Georgia");
+    textSize(12);
+    for (i = 0; i < stats.length; i++){
+      stats[i].update()
+    }
     };
     
   }
@@ -223,4 +335,6 @@ function draw() {
     } 
   }
   */
-}
+
+
+
