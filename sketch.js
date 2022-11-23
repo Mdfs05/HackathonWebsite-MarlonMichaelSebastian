@@ -4,14 +4,41 @@ function preload() {
   img = loadImage('funny.gif')
   map = loadImage('istockphoto-1067670718-612x612.jpg')
   song2 = loadSound('song2.mp3');
+  scream = loadSound('SCREAM.wav');
 
   ottawaImg = loadImage('ottawabackdrop.jpg');
 
 }
 var scene = 0;
+var deleteMode = 0;
 var item = 0;
+var currentGhost = 0;
 var city = null;
 var menuC = false;
+var menuLayer = 0;
+var deleteButton = new Button({
+  x: 495,
+  y: 480,
+  width: 30,
+  height: 30,
+  colour: [255, 0, 0],
+  label:'D',
+  onClick:function() {
+    console.log("Menu working");
+    if (deleteMode === 0) {
+          deleteMode = 1;
+          currentGhost = 0;
+          gBuilding.type = currentGhost;
+    }
+    else {
+      deleteMode = 0;
+    }
+    
+  }
+});
+var buttonX = 15;
+var buttonY = 90;
+var menuButtonPressed = false, infaButtonPressed = false, utilityButtonPressed = false, housingButtonPressed = false, exitButtonPressed = false;
 function setup() {
   createCanvas(550, 520);
   song2.play();
@@ -28,13 +55,7 @@ var menuButtons = [[new Button({
   label:'Infrastructure',
   onClick:function(){
     console.log("Infrastructure");
-    if (infaButtonPressed === false) {
-          menuButtonPressed = false;
-          infaButtonPressed = true;
-    }
-    else {
-      infaButtonPressed = false;
-    }
+    menuLayer = 1;
   }
 }), new Button({
   x: buttonX + 400,
@@ -45,21 +66,259 @@ var menuButtons = [[new Button({
   label:'Utilities',
   onClick:function(){
     console.log("Utilities");
-    if (utilityButtonPressed === false) {
-          menuButtonPressed = false;
-          utilityButtonPressed = true;
-    }
-    else {
-      utilityButtonPressed = false;
-    }
+    menuLayer = 2;
   }
-})]]
-var gBuilding = new ghost(0);
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 65,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Housing',
+  onClick:function(){
+    console.log("Housing");
+        menuLayer = 3;
+
+
+  }
+})], [new Button({ //layer 1
+  x: buttonX + 400,
+  y: buttonY - 15,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Office',
+  onClick:function(){
+    console.log("Office");
+    menuButtonPressed = false;
+    currentGhost = 1;
+    gBuilding.type = currentGhost;
+
+  }
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 25,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Library',
+  onClick:function(){
+    console.log("Library");
+    menuButtonPressed = false;
+    currentGhost = 2;
+    gBuilding.type = currentGhost;
+
+  }
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 65,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Park',
+  onClick:function(){
+    console.log("Park");
+    menuButtonPressed = false;
+    currentGhost = 3;
+    gBuilding.type = currentGhost;
+
+  }
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 105,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Road',
+  onClick:function(){
+    console.log("Road");
+    menuButtonPressed = false;
+    currentGhost = 4;
+    gBuilding.type = currentGhost;
+
+  }
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 145,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'BACK',
+  onClick:function(){
+    menuLayer = 0;
+}})],
+                  [new Button({ //layer 1
+  x: buttonX + 400,
+  y: buttonY - 15,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Coal Plant',
+  onClick:function(){
+    console.log("Coal");
+    menuButtonPressed = false;
+    currentGhost = 5;
+    gBuilding.type = currentGhost;
+  }
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 25,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Wind Farm',
+  onClick:function(){
+    console.log("Wind");
+    menuButtonPressed = false;
+    currentGhost = 6;
+    gBuilding.type = currentGhost;
+
+  }
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 65,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Solar Field',
+  onClick:function(){
+    console.log("Solar");
+    menuButtonPressed = false;
+    currentGhost = 7;
+    gBuilding.type = currentGhost;
+  }
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 105,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Nuclear Plant',
+  onClick:function(){
+    console.log("Nuclear");
+    menuButtonPressed = false;
+    currentGhost = 8;
+    gBuilding.type = currentGhost;
+  }
+}),
+                  new Button({
+  x: buttonX + 400,
+  y: buttonY + 145,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Water Treatment',
+  onClick:function(){
+    console.log("Water");
+    menuButtonPressed = false;
+    currentGhost = 9;
+    gBuilding.type = currentGhost;
+  }
+}),
+                  new Button({
+  x: buttonX + 400,
+  y: buttonY + 185,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Waste Treatment',
+  onClick:function(){
+    console.log("Waste");
+    menuButtonPressed = false;
+    currentGhost = 10;
+    gBuilding.type = currentGhost;
+  }
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 225,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'BACK',
+  onClick:function(){
+    menuLayer = 0;
+}})],
+                  [new Button({ //layer 1
+  x: buttonX + 400,
+  y: buttonY - 15,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'House',
+  onClick:function(){
+    console.log("House");
+    menuButtonPressed = false;
+    currentGhost = 11;
+    gBuilding.type = currentGhost;
+  }
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 25,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Apartment Complex',
+  onClick:function(){
+    console.log("Apartment");
+    menuButtonPressed = false;
+    currentGhost = 12;
+    gBuilding.type = currentGhost;
+  }
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 65,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Hotel',
+  onClick:function(){
+    console.log("Hotel");
+    menuButtonPressed = false;
+    currentGhost = 13;
+    gBuilding.type = currentGhost;
+  }
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 105,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Condo',
+  onClick:function(){
+    console.log("Condo");
+    menuButtonPressed = false;
+    currentGhost = 14;
+    gBuilding.type = currentGhost;
+  }
+}),
+                  new Button({
+  x: buttonX + 400,
+  y: buttonY + 145,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'Content House',
+  onClick:function(){
+    console.log("Content!");
+    menuButtonPressed = false;
+    currentGhost = 15;
+    gBuilding.type = currentGhost;
+  }
+}), new Button({
+  x: buttonX + 400,
+  y: buttonY + 185,
+  width: 125,
+  height: 30,
+  colour: [252, 161, 3],
+  label:'BACK',
+  onClick:function(){
+    menuLayer = 0;
+}})]
+                  ];
+var gBuilding = new ghost(currentGhost);
 var stats = [new stat("Population", 5, 5, 1000, false), new stat("Funds", 5, 15, 10000, false), new stat("Economic", 5, 25, 100, true), new stat("Environmental", 5, 35, 100, true), new stat("Health", 5, 45, 100, true)];
 var cities = ["Ottawa", "New York", "London"];
-var buttonX = 15;
-var buttonY = 90;
-var menuButtonPressed = false, infaButtonPressed = false, utilityButtonPressed = false, housingButtonPressed = false, exitButtonPressed = false;
+
 
 
  var btn1 = new Button({
@@ -120,7 +379,9 @@ var btn4 = new Button({
     }
 });
 function loadBuildings() {
-  peoples.push(new people(100, 100, createVector(1, 0)));
+  for (var i =0; i <30; i++) {
+  peoples.push(new people(random(0, width), random(0, height), createVector(random(-1, 1), random(-1, 1))));
+  }
 }
 //Menu button functionalitity
 var btnMenu = new Button({
@@ -141,99 +402,17 @@ var btnMenu = new Button({
   }
 });
 
-//Roads, schools, parks, etc
-var infaBtn = new Button({
-  x: buttonX + 400,
-  y: buttonY - 15,
-  width: 125,
-  height: 30,
-  colour: [252, 161, 3],
-  label:'Infrastructure',
-  onClick:function(){
-    console.log("Infrastructure");
-    if (infaButtonPressed === false) {
-          menuButtonPressed = false;
-          infaButtonPressed = true;
-    }
-    else {
-      infaButtonPressed = false;
-    }
-  }
-});
-
-//Power and other utilities
-var utilityBtn = new Button({
-  x: buttonX + 400,
-  y: buttonY + 25,
-  width: 125,
-  height: 30,
-  colour: [252, 161, 3],
-  label:'Utilities',
-  onClick:function(){
-    console.log("Utilities");
-    if (utilityButtonPressed === false) {
-          menuButtonPressed = false;
-          utilityButtonPressed = true;
-    }
-    else {
-      utilityButtonPressed = false;
-    }
-  }
-});
-
-//Housing
-var houseBtn = new Button({
-  x: buttonX + 400,
-  y: buttonY + 65,
-  width: 125,
-  height: 30,
-  colour: [252, 161, 3],
-  label:'Housing',
-  subButtons: [new Button({
-  x: buttonX + 400,
-  y: buttonY + 65,
-  width: 125,
-  height: 30,
-  colour: [252, 161, 3],
-  label:'Mansion',
-  onClick:function(){
-    console.log("Mansion");
-    /*
-    if (housingButtonPressed === false) {
-      menuButtonPressed = false;
-      housingButtonPressed = true;
-    }
-    else {
-      housingButtonPressed = false;
-    }
-    */
-  }
-})],
-  onClick:function(){
-    console.log("Housing");
-    if (housingButtonPressed === false) {
-      menuButtonPressed = false;
-      housingButtonPressed = true;
-    }
-    else {
-      housingButtonPressed = false;
-    }
-  }
-});
-
-var buildingButtons =[infaBtn, utilityBtn, houseBtn];
-
 function menu() {
   fill(3, 236, 252, 100);
   rect(395, 65, 150, 300);
-  for(i = 0; i < buildingButtons.length; i++) {
+  for(var i = 0; i < menuButtons[menuLayer].length; i++) {
     if (i === 0) {
       textSize(12);
     }
     else {
       textSize(25);
     }
-    buildingButtons[i].draw();
+    menuButtons[menuLayer][i].draw();
   }
 }
 
@@ -275,6 +454,9 @@ function draw() {
     if (menuButtonPressed === true && menuC === false) {
       menuC = collidePointRect(mouseX, mouseY, 395, 65, 150, 300);
     }
+    if (menuC === false) {
+      menuC = collidePointRect(mouseX, mouseY, deleteButton.x, deleteButton.y, deleteButton.width, deleteButton.height);
+    }
     image(map, 0, 0);
     //Menu button functionalitiy
     for (var i = 0; i < buildings.length; i++) {
@@ -282,15 +464,26 @@ function draw() {
     };
     for (var i = 0; i < peoples.length; i++) {
       peoples[i].update()
-      console.log(i)
      if (peoples[i].stuck === true) {
         peoples.splice(i, 1)
+       scream.play();
        }
     };
       if (menuC === false) {
     gBuilding.update()
       }
     btnMenu.draw();
+    if (currentGhost !== 0) {
+      deleteMode = 0;
+    }
+    if (deleteMode === 1) {
+      deleteButton.colour = [255, 255, 255]
+    }
+    else {
+      deleteButton.colour = [255, 0, 0]
+    }
+    deleteButton.draw();
+    console.log(currentGhost)
       if (menuButtonPressed === true) {
         //fill(3, 236, 252, 100);
         //rect(395, 65, 150, 300);
@@ -335,6 +528,8 @@ function draw() {
     } 
   }
   */
+
+
 
 
 

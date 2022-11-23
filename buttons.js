@@ -41,9 +41,10 @@ mouseClicked = function() {
     else if (scene === 1) {
       btnMenu.handleMouseClick();
       if(menuC === true) {
-        infaBtn.handleMouseClick();
-        utilityBtn.handleMouseClick();
-        houseBtn.handleMouseClick();
+        for(var i = 0; i < menuButtons[menuLayer].length; i++) {
+      menuButtons[menuLayer][i].handleMouseClick();
+  }
+        deleteButton.handleMouseClick();
       }
     }
 }

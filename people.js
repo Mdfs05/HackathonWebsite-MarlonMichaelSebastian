@@ -26,10 +26,14 @@ class people {
     this.x += this.direction.x
     this.y += this.direction.y
     for (var i = 0; i < buildings.length; i++) {
-      if (collideRectCircle(buildings[i].x-25, buildings[i].y-25, 50, 50, this.x, this.y, 10) || this.x<0 || this.x>width || this.y<0 || this.y> height) {
+      if (collideRectCircle(buildings[i].x-25, buildings[i].y-25, 50, 50, this.x, this.y, 10)) {
         personC = true;
       }
     }
+      if (this.x<0 || this.x>width || this.y<0 || this.y> height) {
+        personC = true;
+
+      }
       if (personC === true) {
         this.x -= this.direction.x
         this.y -= this.direction.y
