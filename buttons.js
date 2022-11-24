@@ -7,6 +7,9 @@ function Button(config) {
     this.onClick = config.onClick || function() {};
     this.colour = config.colour || [255, 255, 255];
     this.subButtons = config.subButtons;
+    this.cost = config.cost;
+    this.mX = config.mX || 0;
+    this.mY = config.mY || 0;
 }
 
 Button.prototype.draw = function() {

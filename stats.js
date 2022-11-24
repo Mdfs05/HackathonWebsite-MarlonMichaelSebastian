@@ -17,7 +17,6 @@ class stat {
       fill(255, 255, 100, 255)
       textStyle(NORMAL);
       text((this.type + ": "+ this.value), this.x, this.y)
-
     }
   }
 }

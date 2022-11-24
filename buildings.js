@@ -3,16 +3,111 @@ class building {
     this.type = type;
     this.x = x;
     this.y = y;
+    this.light = false;
+    switch (this.type) {
+      case 0:
+        break;
+      case 1:
+        this.width = 50;
+        this.height = 50;
+        this.colour = [176, 176, 176];
+        break;
+      case 2:
+        this.width = 70;
+        this.height = 40;
+        this.colour = [69, 58, 39]
+        break;
+      case 3:
+        this.width = 60;
+        this.height = 60;
+        this.colour = [37, 110, 47];
+        break;
+      case 4:
+        this.width = 550;
+        this.height = 45;
+        this.colour = [47, 51, 47]
+        break;
+      case 5:
+        this.width = 60;
+        this.height = 40;
+        this.colour = [26, 17, 1]
+        break;
+      case 6:
+        this.width = 100;
+        this.height = 100;
+        this.colour = [255, 255, 255];
+        break;
+      case 7:
+        this.width = 30;
+        this.height = 30;
+        this.colour = [35, 51, 54]
+        break;
+      case 8:
+        this.width = 60;
+        this.height = 60;
+        this.colour = [16, 227, 90]
+        break;
+      case 9:
+        this.width = 90;
+        this.height = 90;
+        this.colour = [101, 133, 201]
+        break;
+      case 10:
+        this.width = 90;
+        this.height = 90;
+        this.colour = [52, 77, 5];
+        break;
+      case 11:
+        this.width = 35;
+        this.height = 35;
+        this.colour = [77, 40, 17]
+        break;
+      case 12:
+        this.width = 50;
+        this.height = 50;
+        this.colour = [134, 140, 122]
+        break;
+      case 13:
+        this.width = 80;
+        this.height = 60;
+        this.colour = [105, 13, 25]
+        break;
+      case 14:
+        this.width = 70;
+        this.height = 50;
+        this.colour = [252, 225, 228]
+        break;
+      case 15:
+        this.width = 100;
+        this.height = 100;
+        this.colour = [3, 244, 252]
+        break;
+    }
   }
 
+//Include new variables outlining cost, population change, and factors changes?
+//Made an array and new variable in sketch
+
   update() {
+    if (this.light === false) {
+    fill(this.colour[0], this.colour[1], this.colour[2]);
+    }
+    else {
+      fill(255, 0, 0, 100);
+    }
+    
+   
+    rectMode(CENTER);
+    rect(this.x, this.y, this.width, this.height);
+    rectMode(CORNER);
     /*
     this.velocity = createVector(mouseX, mouseY).sub(this.x, this.y)
     this.velocity = this.velocity.normalize();
     this.x+= this.velocity.x
     this.y+= this.velocity.y
     */
-    switch (this.type) {
+    
+    /*switch (this.type) {
       case 0:
         break;
       case 1:
@@ -125,7 +220,7 @@ class building {
         rectMode(CENTER);
         rect(this.x, this.y, 100, 100);
         rectMode(CORNER);
-        break;
+        break;*/
       /*
       default:
         //Trying to replicate missing texture
@@ -137,13 +232,15 @@ class building {
       */
     }
 }
-}
+
 
 function mousePressed() {
   if (scene === 1) {
   var collision = false;
+    var mX = constrain(mouseX, 0, 550);
+    var mY = constrain(mouseY, 0, 520);
     for (var i = 0; i< buildings.length; i++) {
-    if (collideRectRect(mouseX - 25, mouseY - 25, 50, 50, buildings[i].x - 25,buildings[i].y - 25, 50, 50)) {
+    if (collideRectRect(mX - gBuilding.width/2, mY - gBuilding.height/2, gBuilding.width, gBuilding.height, buildings[i].x - buildings[i].width/2,buildings[i].y - buildings[i].height/2, buildings[i].width, buildings[i].height)) {
       collision = true;
     }
   }
@@ -151,25 +248,120 @@ function mousePressed() {
       console.log("WAAAAH")
       if (currentGhost !== 0) {
       console.log("AHAHAHAHA")
-      buildings.push(new building(currentGhost, mouseX, mouseY))
+      buildings.push(new building(currentGhost, mX, mY))
+      for (var i =0; i< statArray[currentGhost].length; i++) {
+          stats[i].value+=statArray[currentGhost][i]
+      }
       }
     }
   }
+  if (menuC === false) {
   if (deleteMode === 1) {
     for (var i =0; i < buildings.length; i++) {
-      if (collidePointRect(mouseX, mouseY, buildings[i].x-25, buildings[i].y-25, 50, 50)) {
+      if (collidePointRect(mouseX, mouseY, buildings[i].x-buildings[i].width/2, buildings[i].y-buildings[i].height/2, buildings[i].width, buildings[i].height)) {
+        for (var j =0; j< statArray[buildings[i].type].length; j++) {
+          stats[j].value-=statArray[buildings[i].type][j]
+        }
         buildings.splice(i, 1)
+        
       }
     }
+  }
   }
 }
 
 class ghost {
   constructor(type) {
     this.type = type;
+    this.x;
+    this.y;
   }
 
   update() {
+    this.x = constrain(mouseX, 0, 550);
+    this.y = constrain(mouseY, 0, 520);
+    switch (this.type) {
+      case 0:
+        this.width = 50;
+        this.height = 50;
+        this.colour = [176, 176, 176];
+        break;
+      case 1:
+        this.width = 50;
+        this.height = 50;
+        this.colour = [176, 176, 176];
+        break;
+      case 2:
+        this.width = 70;
+        this.height = 40;
+        this.colour = [69, 58, 39]
+        break;
+      case 3:
+        this.width = 60;
+        this.height = 60;
+        this.colour = [37, 110, 47];
+        break;
+      case 4:
+        this.width = 550;
+        this.height = 45;
+        this.colour = [47, 51, 47]
+        break;
+      case 5:
+        this.width = 60;
+        this.height = 40;
+        this.colour = [26, 17, 1]
+        break;
+      case 6:
+        this.width = 100;
+        this.height = 100;
+        this.colour = [255, 255, 255];
+        break;
+      case 7:
+        this.width = 30;
+        this.height = 30;
+        this.colour = [35, 51, 54]
+        break;
+      case 8:
+        this.width = 60;
+        this.height = 60;
+        this.colour = [16, 227, 90]
+        break;
+      case 9:
+        this.width = 90;
+        this.height = 90;
+        this.colour = [101, 133, 201]
+        break;
+      case 10:
+        this.width = 90;
+        this.height = 90;
+        this.colour = [52, 77, 5];
+        break;
+      case 11:
+        this.width = 35;
+        this.height = 35;
+        this.colour = [77, 40, 17]
+        break;
+      case 12:
+        this.width = 50;
+        this.height = 50;
+        this.colour = [134, 140, 122]
+        break;
+      case 13:
+        this.width = 80;
+        this.height = 60;
+        this.colour = [105, 13, 25]
+        break;
+      case 14:
+        this.width = 70;
+        this.height = 50;
+        this.colour = [252, 225, 228]
+        break;
+      case 15:
+        this.width = 100;
+        this.height = 100;
+        this.colour = [3, 244, 252]
+        break;
+    }
     /*
     this.velocity = createVector(mouseX, mouseY).sub(this.x, this.y)
     this.velocity = this.velocity.normalize();
@@ -178,11 +370,24 @@ class ghost {
     */
     var ghostC = false;
     for (var i = 0; i< buildings.length; i++) {
-    if (collideRectRect(mouseX - 25, mouseY - 25, 50, 50, buildings[i].x - 25,buildings[i].y - 25, 50, 50)) {
+    if (collideRectRect(this.x - this.width/2, this.y - this.height/2, this.width, this.height, buildings[i].x - buildings[i].width/2,buildings[i].y-buildings[i].height/2, buildings[i].width, buildings[i].height)) {
       ghostC = true;
     }
   }
-    switch (this.type) {
+    if (this.type !== 0) {
+    if (ghostC === true) {
+                  fill(255, 0, 0, 100)
+
+        }
+        else {
+                  fill(this.colour[0], this.colour[1], this.colour[2])
+
+        }
+        rectMode(CENTER)
+        rect(this.x, this.y, this.width, this.height);
+        rectMode(CORNER)
+    }
+    /*switch (this.type) {
       case 0:
         break;
       case 1:
@@ -397,6 +602,6 @@ class ghost {
         break;
       default:
         break;
-    }
+    }*/
 }
 }

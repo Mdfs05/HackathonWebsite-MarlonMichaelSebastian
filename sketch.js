@@ -38,7 +38,9 @@ var deleteButton = new Button({
 });
 var buttonX = 15;
 var buttonY = 90;
-var menuButtonPressed = false, infaButtonPressed = false, utilityButtonPressed = false, housingButtonPressed = false, exitButtonPressed = false;
+var menuButtonPressed = false;
+var startingFunds = 1000000;
+var statArray = [[], [0, -50000, 1, -2, 0], [0, -35000, -2, 0, 3], [0, -25000, -1, 0, 3], [0, -60000, 1, -1, -3], [0, -15000, 5, -3, -4], [0, -55000, 1, 1, 0], [0, -40000, 1, 0, 2], [0, -75000, -3, 2, 1], [0, -40000, -1, 1, 3], [0, -40000, -1, 0, 1], [4, -15000, -1, -1, 1], [100, -45000, 0, -1, 0], [0, -55000, 2, -1, 1], [200, -50000, 1, -1, 0], [10, -100000, 1, -5, -10]];
 function setup() {
   createCanvas(550, 520);
   song2.play();
@@ -316,7 +318,7 @@ var menuButtons = [[new Button({
 }})]
                   ];
 var gBuilding = new ghost(currentGhost);
-var stats = [new stat("Population", 5, 5, 1000, false), new stat("Funds", 5, 15, 10000, false), new stat("Economic", 5, 25, 100, true), new stat("Environmental", 5, 35, 100, true), new stat("Health", 5, 45, 100, true)];
+var stats = [new stat("Population", 5, 5, 1000, false), new stat("Funds", 5, 15, startingFunds, false), new stat("Economic", 5, 25, 100, true), new stat("Environmental", 5, 35, 100, true), new stat("Health", 5, 45, 100, true)];
 var cities = ["Ottawa", "New York", "London"];
 
 
@@ -329,13 +331,9 @@ var cities = ["Ottawa", "New York", "London"];
     onClick: function() {
       print("ottawa");
       city = cities[0];
-
       scene = 1;
-
-              scene = 1;
-loadBuildings()
-
-
+      scene = 1;
+      loadBuildings()
     }
 });
 var btn2 = new Button({
@@ -345,15 +343,11 @@ var btn2 = new Button({
     label: cities[1],
     onClick: function() {
       print("new york");
-
       city = cities[1];
       scene = 1;
-
-            city = cities[1];
-              scene = 1;
+      city = cities[1];
+      scene = 1;
       loadBuildings()
-
-
     }
 });
 var btn3 = new Button({
@@ -449,7 +443,7 @@ function draw() {
 
   }
   if (scene === 1) {
-    background(220);
+    background(56, 168, 50);
     menuC = collidePointRect(mouseX, mouseY, btnMenu.x, btnMenu.y, btnMenu.width, btnMenu.height);
     if (menuButtonPressed === true && menuC === false) {
       menuC = collidePointRect(mouseX, mouseY, 395, 65, 150, 300);
@@ -457,9 +451,30 @@ function draw() {
     if (menuC === false) {
       menuC = collidePointRect(mouseX, mouseY, deleteButton.x, deleteButton.y, deleteButton.width, deleteButton.height);
     }
-    image(map, 0, 0);
+    //image(map, 0, 0);
     //Menu button functionalitiy
+    if (currentGhost !== 0) {
+      deleteMode = 0;
+    }
+    if (deleteMode === 1) {
+      deleteButton.colour = [255, 255, 255]
+    }
+    else {
+      deleteButton.colour = [255, 0, 0]
+    }
     for (var i = 0; i < buildings.length; i++) {
+      buildings[i].light = false;
+      if (deleteMode === 1) {
+        if (menuC === false) {
+      if(collidePointRect(mouseX, mouseY, buildings[i].x-buildings[i].width/2, buildings[i].y-buildings[i].height/2, buildings[i].width, buildings[i].height)) {
+        buildings[i].light = true;
+      }
+      
+      else {
+        buildings[i].light = false;
+      }
+      }
+      }
       buildings[i].update()
     };
     for (var i = 0; i < peoples.length; i++) {
@@ -473,15 +488,6 @@ function draw() {
     gBuilding.update()
       }
     btnMenu.draw();
-    if (currentGhost !== 0) {
-      deleteMode = 0;
-    }
-    if (deleteMode === 1) {
-      deleteButton.colour = [255, 255, 255]
-    }
-    else {
-      deleteButton.colour = [255, 0, 0]
-    }
     deleteButton.draw();
     console.log(currentGhost)
       if (menuButtonPressed === true) {
