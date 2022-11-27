@@ -10,6 +10,7 @@ function preload() {
 
 }
 var scene = 0;
+var dead = 0;
 var deleteMode = 0;
 var item = 0;
 var currentGhost = 0;
@@ -36,6 +37,19 @@ var deleteButton = new Button({
     
   }
 });
+var winButton = new Button({
+  x: 10,
+  y: 480,
+  width: 120,
+  height: 30,
+  colour: [224, 0, 202],
+  label:'FINISH GAME',
+  size: 14,
+  onClick:function() {
+    console.log("Menu working");
+    scene = 2;
+  }
+});
 var buttonX = 15;
 var buttonY = 90;
 var menuButtonPressed = false;
@@ -55,6 +69,7 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Infrastructure',
+  size: 14,
   onClick:function(){
     console.log("Infrastructure");
     menuLayer = 1;
@@ -90,6 +105,7 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Office',
+  cost: 50000,
   onClick:function(){
     console.log("Office");
     menuButtonPressed = false;
@@ -104,6 +120,7 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Library',
+  cost: 35000,
   onClick:function(){
     console.log("Library");
     menuButtonPressed = false;
@@ -118,6 +135,7 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Park',
+  cost: 25000,
   onClick:function(){
     console.log("Park");
     menuButtonPressed = false;
@@ -132,6 +150,7 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Road',
+  cost: 60000,
   onClick:function(){
     console.log("Road");
     menuButtonPressed = false;
@@ -156,6 +175,8 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Coal Plant',
+  size: 14,
+  cost: 15000,
   onClick:function(){
     console.log("Coal");
     menuButtonPressed = false;
@@ -169,6 +190,8 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Wind Farm',
+  size: 14,
+  cost: 55000,
   onClick:function(){
     console.log("Wind");
     menuButtonPressed = false;
@@ -183,6 +206,8 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Solar Field',
+  size: 14,
+  cost: 40000,
   onClick:function(){
     console.log("Solar");
     menuButtonPressed = false;
@@ -196,6 +221,8 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Nuclear Plant',
+  size: 14,
+  cost: 75000,
   onClick:function(){
     console.log("Nuclear");
     menuButtonPressed = false;
@@ -210,6 +237,8 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Water Treatment',
+  cost: 40000,
+  size: 12,
   onClick:function(){
     console.log("Water");
     menuButtonPressed = false;
@@ -224,6 +253,8 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Waste Treatment',
+  cost: 40000,
+  size: 12,
   onClick:function(){
     console.log("Waste");
     menuButtonPressed = false;
@@ -247,6 +278,7 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'House',
+  cost: 15000,
   onClick:function(){
     console.log("House");
     menuButtonPressed = false;
@@ -260,6 +292,8 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Apartment Complex',
+  size: 10,
+  cost: 45000,
   onClick:function(){
     console.log("Apartment");
     menuButtonPressed = false;
@@ -273,6 +307,7 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Hotel',
+  cost: 55000,
   onClick:function(){
     console.log("Hotel");
     menuButtonPressed = false;
@@ -286,6 +321,7 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Condo',
+  cost: 50000,
   onClick:function(){
     console.log("Condo");
     menuButtonPressed = false;
@@ -300,6 +336,8 @@ var menuButtons = [[new Button({
   height: 30,
   colour: [252, 161, 3],
   label:'Content House',
+  size: 14,
+  cost: 100000,
   onClick:function(){
     console.log("Content!");
     menuButtonPressed = false;
@@ -320,6 +358,7 @@ var menuButtons = [[new Button({
 var gBuilding = new ghost(currentGhost);
 var stats = [new stat("Population", 5, 5, 1000, false), new stat("Funds", 5, 15, startingFunds, false), new stat("Economic", 5, 25, 100, true), new stat("Environmental", 5, 35, 100, true), new stat("Health", 5, 45, 100, true)];
 var cities = ["Ottawa", "New York", "London"];
+var cityStats = [[0, 1000000, 50, 50, 50],[0, 1500000, 70, 10, 30],[0, 2000000, 0, 0, 0]]
 
 
 
@@ -330,7 +369,7 @@ var cities = ["Ottawa", "New York", "London"];
     label: cities[0],
     onClick: function() {
       print("ottawa");
-      city = cities[0];
+      city = 0;
       scene = 1;
       scene = 1;
       loadBuildings()
@@ -343,9 +382,7 @@ var btn2 = new Button({
     label: cities[1],
     onClick: function() {
       print("new york");
-      city = cities[1];
-      scene = 1;
-      city = cities[1];
+      city = 1;
       scene = 1;
       loadBuildings()
     }
@@ -357,12 +394,12 @@ var btn3 = new Button({
     label: cities[2],
     onClick: function() {
       print("london");
-      city = cities[2];
+      city = 2
       scene = 1;
       loadBuildings()
     }
 });
-var btn4 = new Button({
+/*var btn4 = new Button({
     x: buttonX,
     y: buttonY+225,
     colour: [255, 0, 0],
@@ -371,8 +408,12 @@ var btn4 = new Button({
       print("only in ohio");
       scene = -1;
     }
-});
+    
+});*/
 function loadBuildings() {
+  for (var i =0; i<stats.length; i++) {
+    stats[i].value = cityStats[city][i]
+  }
   for (var i =0; i <30; i++) {
   peoples.push(new people(random(0, width), random(0, height), createVector(random(-1, 1), random(-1, 1))));
   }
@@ -434,7 +475,7 @@ function draw() {
   btn1.draw();
   btn2.draw();
   btn3.draw();
-  btn4.draw();
+  //btn4.draw();
     
   textFont('Comic Sans MS');
   textStyle(BOLD);
@@ -450,6 +491,9 @@ function draw() {
     }
     if (menuC === false) {
       menuC = collidePointRect(mouseX, mouseY, deleteButton.x, deleteButton.y, deleteButton.width, deleteButton.height);
+    }
+    if (menuC === false) {
+      menuC = collidePointRect(mouseX, mouseY, winButton.x, winButton.y, winButton.width, winButton.height);
     }
     //image(map, 0, 0);
     //Menu button functionalitiy
@@ -482,6 +526,7 @@ function draw() {
      if (peoples[i].stuck === true) {
         peoples.splice(i, 1)
        scream.play();
+       dead++;
        }
     };
       if (menuC === false) {
@@ -489,6 +534,7 @@ function draw() {
       }
     btnMenu.draw();
     deleteButton.draw();
+    winButton.draw();
     console.log(currentGhost)
       if (menuButtonPressed === true) {
         //fill(3, 236, 252, 100);
@@ -512,7 +558,38 @@ function draw() {
       stats[i].update()
     }
     };
+  if (scene === 2) {
+    fill(0, 0, 0)
+    background(133, 251, 255)
+    textSize(30)
+    textFont('Comic Sans MS');
+    textStyle(BOLD)
+    textAlign(CENTER)
+    text("YOU FINISHED!", 275, 40);
+    textSize(24)
+    textStyle(NORMAL)
+    text("Lets See How You Did", 275, 80);
+    text("Economics: " + stats[2].value + "%", 137.4, 160)
+    text("Environmental: " + stats[3].value + "%", 412.5, 160)
+    text("Health: " + stats[4].value + "%", 275, 200);
+    var totalS = floor((stats[2].value+stats[3].value+stats[4].value)/3)
+    textSize(30)
+    text("Total Sustainability: " + totalS + "%", 275
+, 240)
+        text("Population: " + stats[0].value, 275
+, 280)
+    text("Remaining Funds: " + stats[1].value, 275
+, 320)
+    text("People Killed: " + dead + '/30', 275
+, 360)
+    textSize(40)
+    var finalS = floor(totalS+(totalS*(stats[0].value*0.05)))
+    text("FINAL SCORE", 275
+, 420)
+    text(finalS, 275
+, 460)
     
+  }
   }
   if (scene === -1) {
     test = createImg("funny.gif")

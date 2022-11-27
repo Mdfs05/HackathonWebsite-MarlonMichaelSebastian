@@ -244,6 +244,7 @@ function mousePressed() {
       collision = true;
     }
   }
+    if (stats[1].value >= -statArray[currentGhost][1]) {
     if (collision === false && menuC === false) {
       console.log("WAAAAH")
       if (currentGhost !== 0) {
@@ -253,6 +254,7 @@ function mousePressed() {
           stats[i].value+=statArray[currentGhost][i]
       }
       }
+    }
     }
   }
   if (menuC === false) {

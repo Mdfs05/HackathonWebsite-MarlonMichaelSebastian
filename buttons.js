@@ -10,6 +10,7 @@ function Button(config) {
     this.cost = config.cost;
     this.mX = config.mX || 0;
     this.mY = config.mY || 0;
+    this.size = config.size || 24;
 }
 
 Button.prototype.draw = function() {
@@ -17,7 +18,14 @@ Button.prototype.draw = function() {
     rect(this.x, this.y, this.width, this.height, 5);
     fill(0, 0, 0);
     textAlign(LEFT, TOP);
+    if (this.cost && this.isMouseInside()) {
+      textSize(24)
+      text(this.cost, this.x+10, this.y+this.height/4);
+    }
+  else {
+    textSize(this.size)
     text(this.label, this.x+10, this.y+this.height/4);
+  }
 };
 
 Button.prototype.isMouseInside = function() {
@@ -38,7 +46,7 @@ mouseClicked = function() {
       btn1.handleMouseClick();
       btn2.handleMouseClick();
       btn3.handleMouseClick();
-      btn4.handleMouseClick();
+      //btn4.handleMouseClick();
     }
       //Menu button functionalitity
     else if (scene === 1) {
@@ -48,6 +56,8 @@ mouseClicked = function() {
       menuButtons[menuLayer][i].handleMouseClick();
   }
         deleteButton.handleMouseClick();
+        winButton.handleMouseClick();
+
       }
     }
 }
